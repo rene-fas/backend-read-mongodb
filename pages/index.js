@@ -1,3 +1,4 @@
+// pages/index.js
 import ProductList from "../components/ProductList";
 import styled from "styled-components";
 

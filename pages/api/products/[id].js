@@ -1,13 +1,25 @@
-import { products } from "../../../lib/products";
+// pages/api/products/[id].js
+import dbConnect from "../../../db/connect";
+import Product from "../../../db/models/Product";
 
-export default function handler(request, response) {
-  const { id } = request.query;
+export default async function handler(request, response) {
+  await dbConnect();
 
-  const product = products.find((product) => product.id === id);
+  if (request.method === "GET") {
+    const { id } = request.query;
 
-  if (!product) {
-    return response.status(404).json({ status: "Not Found" });
+    try {
+      const product = await Product.findById(id);
+
+      if (!product) {
+        return response.status(404).json({ status: "Not Found" });
+      }
+
+      return response.status(200).json(product);
+    } catch (error) {
+      return response.status(500).json({ error: "Internal Server Error" });
+    }
   }
 
-  response.status(200).json(product);
+  return response.status(404).json({ error: "Not Found" });
 }
