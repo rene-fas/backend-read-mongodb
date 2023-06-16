@@ -1,19 +1,11 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
+
 const { Schema } = mongoose;
 
 const reviewSchema = new Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  text: {
-    type: String,
-    required: true,
-  },
-  rating: {
-    type: Number,
-    required: true,
-  },
+  title: { type: String, required: true },
+  text: { type: String, required: true },
+  rating: { type: Number, required: true },
 });
 
-module.exports = mongoose.model("Review", reviewSchema);
+export default mongoose.models.Review || mongoose.model("Review", reviewSchema);
